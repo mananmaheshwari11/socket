@@ -1,0 +1,18 @@
+Meet app for socket io 
+
+
+needs- 
+user can create account/user login 
+user can create a meet 
+user also declare the agenda in a meet 
+user can join the meet
+(schedule a meet can be option to explore )
+
+
+we use-
+socket io 
+express 
+next.js 
+mongo 
+web rtc for video embedding 
+webrtc signaling server with socket io 
