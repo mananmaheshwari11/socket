@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt"
 
-const userModel=new mongoose.Schema({
+const userSchema=new mongoose.Schema({
     name:{
         type:String,
         required:true
@@ -25,4 +26,24 @@ const userModel=new mongoose.Schema({
     }
 },{timestamps:true})
 
-export default mongoose.model('userModel',userModel);
+userSchema.pre('save',function(next){
+    const salt = bcrypt.genSalt();
+    this.password = bcrypt.hash(this.password,salt)
+    next()
+})
+
+userSchema.statics.login = async function(email,password){
+    const user = await this.findOne({email : email});
+    if(user){
+        try {
+            const valid = await bcrypt.compare(password,user.password)
+            if(valid){
+                return user
+            }throw Error("Incorrect password")
+        } catch (error) {
+            throw Error("Email not registered")
+        }
+    }
+}
+
+export default mongoose.model('userModel',userSchema);
