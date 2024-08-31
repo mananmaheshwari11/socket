@@ -3,7 +3,7 @@ import userModel from "../Models/userModel.js";
 import jwt from "jsonwebtoken";
 
 const handleError = (err) =>{
-    console(err.message,err.code);
+    console.log(err.message,err.code);
     let errors = {email:"",password:""}
 
     //if incorrect email
@@ -25,8 +25,8 @@ const handleError = (err) =>{
   if (err.message.includes('user validation failed')) {
     // console.log(err);
     Object.values(err.errors).forEach(({ properties }) => {
-      // console.log(val);
-      // console.log(properties);
+      console.log(val);
+      console.log(properties);
       errors[properties.path] = properties.message;
     });
   }
@@ -42,21 +42,23 @@ const createToken=(id)=>{
 }
 
 const post_signup = async (req,res) =>{
-    const {name,email,phone,password,image} = req.body;
+    const {name,email,phone,password} = req.body;
     try {
-        const user = await userModel.create({name,email,phone,password,image})
+        console.log("i am here")
+        const user = await userModel.create({name,email,phone,password})
         res.status(201).json({user : user._id});
     } catch (error) {
         const errors = handleError(error);
         res.status(400).json({errors})
+        // console.log(error)
     }
 }
 
 const post_login = async (req,res) =>{
     const {email,password} = req.body;
     try {
-        const user = await userModel.login({email,password});
-        const token = createToken(req._id);
+        const user = await userModel.login(email,password);
+        const token = createToken({id:user._id});
         res.cookie("jwt",token,{
             httpOnly : true,
             maxAge : maxAge*1000
@@ -64,11 +66,12 @@ const post_login = async (req,res) =>{
         res.status(200).json({ user: user._id });
     } catch (error) {
         const errors = handleError(error)
-        res.status(200).json({user : user._id})
+        res.status(200).json({user : ""})
+        // console.log(error)
     }
 }
 
-const get_logout = () =>{
+const get_logout = (req,res) =>{
     res.cookie("jwt","",{
         maxAge : 1
     });

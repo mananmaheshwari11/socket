@@ -19,30 +19,29 @@ const userSchema=new mongoose.Schema({
     password:{
         type:String,
         required:true,
-    },
-    image:{
-        type:Buffer,
-        contentType:String
     }
+    // image:{
+    //     type:Buffer,
+    //     contentType:String
+    // }
 },{timestamps:true})
 
-userSchema.pre('save',function(next){
-    const salt = bcrypt.genSalt();
-    this.password = bcrypt.hash(this.password,salt)
+userSchema.pre('save',async function(next){
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password,salt)
     next()
 })
 
 userSchema.statics.login = async function(email,password){
-    const user = await this.findOne({email : email});
+    const user = await this.findOne({email});
     if(user){
-        try {
             const valid = await bcrypt.compare(password,user.password)
             if(valid){
                 return user
             }throw Error("Incorrect password")
-        } catch (error) {
-            throw Error("Email not registered")
         }
+    else{
+        throw Error("Email not registered")
     }
 }
 
