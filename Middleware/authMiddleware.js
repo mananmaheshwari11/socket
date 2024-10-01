@@ -1,26 +1,24 @@
 import jwt from "jsonwebtoken"
 import userModel from "../Models/userModel.js"
 
-const requireAuth = (req,res,next) =>{
-    const token = req.cookies.jwt;
+export const requireAuth = (req,res,next) =>{
+    const token = req.headers.authorization
     if(token){
         jwt.verify(token,process.env.JWT_SECRET,(error,decodedToken)=>{
             if(error){
                 console.log(error.message)
-                res.redirect("/login")
             }
             else{
-                console.log(decodedToken)
-                next()
+                next();
             }
         })
     }
     else{
-        res.redirect("/login");
+       console.log("error occured in fetching token")
     }
 }
 
-const checkUser = (req, res, next) => {
+export const checkUser = (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {
         jwt.verify(token, 'net ninja secret', async (err, decodedToken) => {
@@ -39,4 +37,3 @@ const checkUser = (req, res, next) => {
     }
 };
 
-export default {requireAuth,checkUser};

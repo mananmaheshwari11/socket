@@ -1,12 +1,17 @@
 <script>
-	import Cover from "../cover.svelte";
+	import Cover from "../../component/cover.svelte";
     import '../signup/style.css';
     import axios from 'axios';
     import { goto } from '$app/navigation';
+	import { signin } from "../../stores/auth.js";
     let password=''
     let email=''
-    const handleSignin=()=>{
-
+    const handleSignin=async()=>{
+        const {data}=await axios.post('/api/auth/login',{email,password})
+        if(data.success){
+            signin(data)
+            goto('/')
+        }
     }
 </script>
 <Cover>
@@ -21,6 +26,7 @@
         <input type="password" id="password" bind:value={password} placeholder="Enter your password" required>
     </div>
     <button type="submit" class="submit-btn">Log-In</button>
+    <p>New User? <a href="/signup" class="cover-link">SignUp</a> Here</p>
 </form>
 
 </Cover>

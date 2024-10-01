@@ -46,7 +46,7 @@ const post_signup = async (req,res) =>{
     try {
         console.log("i am here")
         const user = await userModel.create({name,email,phone,password})
-        res.status(201).json({user : user._id});
+        res.status(201).json({success:true,user : user._id});
     } catch (error) {
         const errors = handleError(error);
         res.status(400).json({errors})
@@ -59,11 +59,11 @@ const post_login = async (req,res) =>{
     try {
         const user = await userModel.login(email,password);
         const token = createToken({id:user._id});
-        res.cookie("jwt",token,{
-            httpOnly : true,
-            maxAge : maxAge*1000
-        })
-        res.status(200).json({ user: user._id });
+        // res.cookie("jwt",token,{
+        //     httpOnly : true,
+        //     maxAge : maxAge*1000
+        // })
+        return res.status(200).send({success:true,user: user._id,token:token});
     } catch (error) {
         const errors = handleError(error)
         res.status(200).json({user : ""})
@@ -72,10 +72,10 @@ const post_login = async (req,res) =>{
 }
 
 const get_logout = (req,res) =>{
-    res.cookie("jwt","",{
-        maxAge : 1
-    });
-    res.redirect("/");
+    // res.cookie("jwt","",{
+    //     maxAge : 1
+    // });
+    // res.redirect("/");
 }
 
 export default {post_login,post_signup,get_logout}

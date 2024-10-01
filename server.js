@@ -3,9 +3,10 @@ import dotenv from 'dotenv/config';
 import authRoute from "./Routes/authRoute.js";
 import meetRoute from "./Routes/meetRoute.js";
 import cookie_Parser from "cookie-parser";
-import middle from "./Middleware/authMiddleware.js";
 import meetModel from "./Models/meetModel.js";
 import mongoose from "mongoose";
+import cors from 'cors'
+import morgan from 'morgan'
 import { Server as SocketIOServer } from "socket.io";
 import http from 'http';
 
@@ -15,6 +16,8 @@ const io = new SocketIOServer(server);
 
 app.use(cookie_Parser());
 app.use(express.json());
+app.use(cors())
+app.use(morgan('dev'))
 
 // db connect
 let connectString = "mongodb+srv://<db_username>:<db_password>@cluster0.kjwuj.mongodb.net/Meet";
@@ -23,12 +26,9 @@ connectString = connectString.replace("<db_password>", process.env.DB_PASSWORD);
 const port = process.env.PORT;
 
 // routes
-app.get("", (req, res) => {
-    res.send("This is home page which will be protected");
-});
 app.use('/api/auth', authRoute);
 app.use('/api/meet', meetRoute);
-app.get("*", middle.checkUser);
+
 
 mongoose.connect(connectString);
 

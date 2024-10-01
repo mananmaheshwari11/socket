@@ -1,7 +1,7 @@
 <script>
-    import Cover from "../cover.svelte";
-    import './style.css';
+    import Cover from "../../component/cover.svelte";
     import axios from 'axios';
+    import './style.css';
     import { goto } from '$app/navigation';
     let name=''
     let email=''
@@ -9,10 +9,15 @@
     let password=''
     let cfmpwd=''
     const handleSignup=async()=>{
-        console.log(name,email,phone,password,cfmpwd)
-        // const data=await axios.post('/api/auth',name,email,phone,password);
-        // data handler to be written
+        if (password== cfmpwd){
+        const {data}=await axios.post('/api/auth/signup',{name,email,phone,password})
+        if(data.success){
         goto('/signin')
+        }
+        else{
+            
+        }
+        }
     }
 </script>
 
@@ -45,5 +50,7 @@
     </div>
 
     <button type="submit" class="submit-btn">Submit</button>
+    <p>Already Signed up? <a href="/signin" class="cover-link">SignIn</a> Here</p>
+
 </form>
     </Cover>
