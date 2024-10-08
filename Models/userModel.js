@@ -19,11 +19,11 @@ const userSchema=new mongoose.Schema({
     password:{
         type:String,
         required:true,
+    },
+    image:{
+        type:Buffer,
+        contentType:String
     }
-    // image:{
-    //     type:Buffer,
-    //     contentType:String
-    // }
 },{timestamps:true})
 
 userSchema.pre('save',async function(next){

@@ -20,7 +20,7 @@
         margin-top: 40px;
         position: relative;
         width: 100%;
-        max-width: 600px;
+        max-width: 560px;
         margin: auto;
         overflow: hidden;
         text-align: center;
@@ -70,7 +70,7 @@
         max-width: 80%;
         margin: 0 auto;
         margin-top: 50px;
-
+        cursor: default;
     }
 </style>
 

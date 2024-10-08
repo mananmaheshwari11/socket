@@ -5,9 +5,6 @@ export const createmeet=async(req,res)=>{
     try{
     const {id}=req.params
     const {title,description,startTime,members}=req.body
-    if(!title){
-        return res.status(404).send({message:"Please enter the title"});
-    }
     if(!startTime){
         return res.status(404).send({message:"Start time of the meet is mandatory"});
     }

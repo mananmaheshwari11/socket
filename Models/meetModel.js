@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const meetModel=new mongoose.Schema({
     title:{
         type:String,
+        default:"Instant Meeting",
         required:true
     },
     description:{

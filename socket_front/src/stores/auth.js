@@ -38,3 +38,14 @@ export async function SetHeader(){  // sets the header for passing the middlewar
         return false;
     }    
 }
+
+export function getUser(){
+    try {
+        const token=localStorage.getItem('auth')
+        const auth=JSON.parse(token)
+        return auth
+    } catch (error) {
+        console.log(error)
+        console.log("AN error occured in user fetch")
+    }
+}

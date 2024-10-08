@@ -1,6 +1,7 @@
 import { error } from "console";
 import userModel from "../Models/userModel.js";
 import jwt from "jsonwebtoken";
+import fs from 'fs'
 
 const handleError = (err) =>{
     console.log(err.message,err.code);
@@ -78,4 +79,60 @@ const get_logout = (req,res) =>{
     // res.redirect("/");
 }
 
-export default {post_login,post_signup,get_logout}
+const getuserdetail=async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const user=await userModel.findById(id);
+        return res.status(200).send({
+            success:true,
+            user
+        })
+    } catch (error) {
+        return res.status(404).send({
+            success:false,
+            error
+        })
+    }
+}
+
+const updateuser=async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const{name,phone}=req.fields;
+        const {image}=req.files;
+        const user=await userModel.findByIdAndUpdate(id,{name:name,phone:phone},{new:true})
+        if(image){
+            user.image.data=fs.readFileSync(image.path)
+            user.image.contentType=image.type
+        }
+        await user.save()
+        return res.status(201).send({
+            success:true,
+            user
+        })
+    } catch (error) {
+        return res.status(400).send({
+            success:false,
+            error
+        })
+    }
+}
+const getuserImage=async(req,res)=>{
+    try {
+        const {id}=req.params;
+        const user=await userModel.findById(id).select('image')
+        if(user.image.data){
+            res.set('Content-type',user.image.contentType)
+        res.status(200).send(
+            user.image.data
+        )
+    }
+    } catch (error) {
+        return res.status(400).send({
+            success:false,
+            error
+        })
+    }
+}
+
+export default {post_login,post_signup,get_logout,getuserdetail,updateuser,getuserImage}
