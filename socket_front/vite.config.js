@@ -10,6 +10,12 @@ export default defineConfig({
 				changeOrigin:true,
 				secure:false,
 				// rewrite: (path) => path.replace(/^\/auth/, '')
+			},
+			'/socket.io':{
+				target:'http://localhost:8080',
+				ws:true,
+				secure:false,
+				changeOrigin:true
 			}
 		}
 	}

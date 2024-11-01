@@ -45,7 +45,6 @@ export function getUser(){
         const auth=JSON.parse(token)
         return auth
     } catch (error) {
-        console.log(error)
-        console.log("AN error occured in user fetch")
+        error
     }
 }

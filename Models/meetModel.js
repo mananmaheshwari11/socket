@@ -32,11 +32,11 @@ const meetModel=new mongoose.Schema({
         type:String,
         required:true,
     },
-    expireAt: {  // Expiry field
-        type: Date,
-        default: Date.now,
-        expires: 162800  // 48 hours in seconds
-    }
+    // expireAt: {  // Expiry field
+    //     type: Date,
+    //     default: Date.now,
+    //     expires: 162800  // 48 hours in seconds
+    // }
 },{timestamps:true})
 
 export default mongoose.model('meetModel',meetModel);

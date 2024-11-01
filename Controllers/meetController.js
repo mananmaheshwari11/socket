@@ -4,7 +4,10 @@ import crypto from 'crypto';
 export const createmeet=async(req,res)=>{
     try{
     const {id}=req.params
-    const {title,description,startTime,members}=req.body
+    let {title,description,startTime,members}=req.body
+    if(!title){
+        title="Instant Meeting"
+    }
     if(!startTime){
         return res.status(404).send({message:"Start time of the meet is mandatory"});
     }

@@ -15,7 +15,8 @@
     "nodemon": "^3.1.6",
     "react-router-dom": "^6.26.2",
     "socket.io": "^4.7.5",
-    "svelte-toast": "^1.0.0"
+    "svelte-toast": "^1.0.0",
+    "ws": "^8.18.0"
   },
   "name": "socket",
   "version": "1.0.0",

@@ -6,6 +6,7 @@
   import Icon from "@iconify/svelte";
   import {onMount} from 'svelte'
 	import MeetForm from "../../component/MeetForm.svelte";
+  // import { connectSocket } from "../../stores/meet"
   let meetCreate=false;
   let code=''
   let dropdownVisible = false;
@@ -46,7 +47,7 @@
                   <Icon icon="mdi:calendar-outline" width="1.2em" height="1.2em" /> Schedule a Meeting
                 </button>
                 <hr>
-                <button class="dropdown-item" on:click={()=>{closeDropdown();}}>
+                <button class="dropdown-item" on:click={()=>{closeDropdown(); goto('/meet/instant')}}>
                   <Icon icon="ic:twotone-plus" width="1.2em" height="1.2em" /> Start an Instant Meeting
                 </button>
               </div>

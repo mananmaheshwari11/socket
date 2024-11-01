@@ -57,6 +57,8 @@ const post_signup = async (req,res) =>{
 
 const post_login = async (req,res) =>{
     const {email,password} = req.body;
+    console.log("From auth",email,password)
+
     try {
         const user = await userModel.login(email,password);
         const token = createToken({id:user._id});
